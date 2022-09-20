@@ -2,6 +2,7 @@
 
 // Utils
 import Renderable from "./renderable.js";
+import Transform from "./transform.js";
 
 import * as glSys from "./core/gl.js";
 import * as vertexBuffer from "./core/vertex_buffer.js";
@@ -20,4 +21,4 @@ function clearCanvas(color) {
 	gl.clear(gl.COLOR_BUFFER_BIT);	
 }
 
-export default { Renderable, init, clearCanvas }
+export default { Renderable, Transform, init, clearCanvas }
