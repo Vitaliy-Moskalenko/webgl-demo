@@ -1,0 +1,1 @@
+This is a **WebGL Demo application**. Project made for educational purposes. 
