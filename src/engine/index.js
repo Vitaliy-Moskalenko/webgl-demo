@@ -1,8 +1,9 @@
 "use strict";
 
 // Utils
-import Renderable from "./renderable.js";
+import Camera from "./camera";
 import Transform from "./transform.js";
+import Renderable from "./renderable.js";
 
 import * as glSys from "./core/gl.js";
 import * as vertexBuffer from "./core/vertex_buffer.js";
@@ -16,9 +17,9 @@ function init(htmlCanvasId) {
 }
 
 function clearCanvas(color) {
-	let gl = glSys.getGL();
+	var gl = glSys.getGL();
 	gl.clearColor(color[0], color[1], color[2], color[3]);
 	gl.clear(gl.COLOR_BUFFER_BIT);	
 }
 
-export default { Renderable, Transform, init, clearCanvas }
+export default { Camera, Renderable, Transform, init, clearCanvas }

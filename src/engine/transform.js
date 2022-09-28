@@ -7,7 +7,7 @@ class Transform {
 		this.mRotation = 0.0; // Radians		
 	}
 
-	setPosition(xPos, yPos) { this.mPosition[0] = xPos; this.mPosition[1] = yPos; }
+	setPosition(xPos, yPos) { this.setXpos(xPos); this.setYpos(yPos); }
 	getPosition() { return this.mPosition; }
 
 	setXpos(xPos) { this.mPosition[0] = xPos; }
@@ -19,7 +19,7 @@ class Transform {
 	incYposBy(delta) { this.mPosition[1] += delta; }
 
 	setWidth(width) { this.mScale[0] = width; }
-	getWidht() { return this.mScale[0]; }
+	getWidth() { return this.mScale[0]; }
 	incWidthBy(delta) { this.mScale[0] += delta; }
 
 	setHeight(height) { this.mScale[1] = height; }
@@ -27,7 +27,7 @@ class Transform {
 	incHeightBy(delta) { this.mScale[1] += delta; }
 
 	setSize(width, height) {
-		this.mScale[0] = widht;
+		this.mScale[0] = width;
 		this.mScale[1] = height;
 	}
 	getSize() { return this.mScale; }
@@ -42,33 +42,26 @@ class Transform {
 			this.mRotation -= (2 * Math.PI);
 	}
 
-	setRotationDegree(degrees) {
-		this.mRotationRad(degrees * Math.PI / 180.0);
-	}
+	setRotationDegree(degrees) { this.mRotationRad(degrees * Math.PI / 180.0); }
 
 	getRotationRad() { return this.mRotation; }
 	getRotationDegree() { return this.mRotation * 180.0 / Math.PI; }
 
-	incRotationRad(deltaRadians) {
-		this.setRotationRad(this.mRotation * deltaRadians);
-	}
+	incRotationRad(deltaRadians) { this.setRotationRad(this.mRotation * deltaRadians); 	}
 
-	incRotationDegrees(deltaDegrees) {
-		this.incRotationRad(deltaDegrees * Math.PI / 180.0);
-	}
+	incRotationDegrees(deltaDegrees) { this.incRotationRad(deltaDegrees * Math.PI / 180.0); }
 
 	// return the matrix concatenated all transformations defined
 	getTRSMatrix() {
 		var matrix = mat4.create(); // Create the identity matrix
 
 		// WebGL matrices are transponded, thus matrix operation must be in reverse
-
 		// Compute translations default z is 0.0 
-		mat4.translate(matrix, matrix, vec3.fromValues(this.mPosition[0], this.mPosition[1]), 0.0);
+		mat4.translate(matrix, matrix, vec3.fromValues(this.getXpos(), this.getYpos(), 0.0));
 		// Concatenate rotation
-		mat4.rotateZ(matrix, matrix, vec3.fromValues(this.mRotation));
+		mat4.rotateZ(matrix, matrix, this.getRotationRad());
 		// Concatenate scaling
-		mat4.scale(matrix, matrix, vec3.fromValues(this.mScale[0], this.mScale[1], 1.0));
+		mat4.scale(matrix, matrix, vec3.fromValues(this.getWidth(), this.getHeight(), 1.0));
 
 		return matrix;
 	}	

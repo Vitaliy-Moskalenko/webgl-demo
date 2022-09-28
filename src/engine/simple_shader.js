@@ -10,6 +10,7 @@ class SimpleShader {
 		this.mVertexPositionRef = null; // ref to vertex position in v-shader
 		this.mPixelColorRef     = null; // ref to pixelColor uniform in f-shadr
 		this.mModelMatrixRef    = null; // ref to model transform matrix in v-shader
+		this.mCameraMatrixRef   = null; // ref to View/Projection matrix in the vertex shader
 		
 		let gl = glSys.getGL();
 		
@@ -29,9 +30,10 @@ class SimpleShader {
 		this.mVertexPositionRef = gl.getAttribLocation(this.mCompiledShader, "aVertexPosition");		
 		this.mPixelColorRef     = gl.getUniformLocation(this.mCompiledShader, "uPixelColor");
 		this.mModelMatrixRef    = gl.getUniformLocation(this.mCompiledShader, "uModelXformMatrix");
+		this.mCameraMatrixRef   = gl.getUniformLocation(this.mCompiledShader, "uCameraXformMatrix");
 	}
 	
-	activate(pixelColor, trsMatrix) {
+	activate(pixelColor, trsMatrix, cameraMatrix) {
 		let gl = glSys.getGL();
 		
 		gl.useProgram(this.mCompiledShader);
@@ -40,10 +42,11 @@ class SimpleShader {
 		gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer.get());
 		gl.vertexAttribPointer(this.mVertexPositionRef, 3, gl.FLOAT, false, 0, 0);
 		gl.enableVertexAttribArray(this.mVertexPositionRef);
-		
+
 		// load uniforms
 		gl.uniform4fv(this.mPixelColorRef, pixelColor);
 		gl.uniformMatrix4fv(this.mModelMatrixRef, false, trsMatrix);
+		gl.uniformMatrix4fv(this.mCameraMatrixRef, false, cameraMatrix);
 	}	
 }
 

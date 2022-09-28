@@ -1,54 +1,62 @@
 "use strict";
 
-import engine from "../engine/index.js"
-
-const { vec2, vec3, mat4 } = glMatrix;
+import engine from "../engine/index";
 
 class Game {
-	constructor(htmlCanvasId) {
-		engine.init(htmlCanvasId);
-		
-		this.mWhiteSquare = new engine.Renderable();
-		this.mWhiteSquare.setColor([1, 1, 1, 1]);
-		
-		this.mBlueSquare = new engine.Renderable();
-		this.mBlueSquare.setColor([0, 0, 1, 1]);		
-		
-		engine.clearCanvas([0, 0.8, 0, 0.9]);		
-		// Transform
-		this.mWhiteSquare.getXform().setPosition(-0.25, 0.25);
-		this.mWhiteSquare.getXform().setRotationRad(0.2);
-		this.mWhiteSquare.getXform().setSize(1.2, 1.2);	
-		// Draw
-		this.mWhiteSquare.draw();
+    constructor(htmlCanvasId) {
+        engine.init(htmlCanvasId);
 
-		this.mBlueSquare.getXform().setXpos(0.25);
-		this.mBlueSquare.getXform().setYpos(-0.25);
-		this.mBlueSquare.getXform().setRotationDegree(45);
-		this.mBlueSquare.getXform().setWidth(0.4);
-		this.mBlueSquare.getXform().setHeight(0.4);
+        this.mCamera = new engine.Camera(vec2.fromValues(20, 60), 20, [20, 40, 600, 300]);
 
-		this.mBlueSquare.draw();
+        this.mBlueSq = new engine.Renderable();
+        this.mBlueSq.setColor([0.25, 0.25, 0.95, 1]);
 
-		/* var trsMatrix = mat4.create(); // create new identity transform operator
-		mat4.translate(trsMatrix, trsMatrix, vec3.fromValues(-0.25, 0.25, 0.0));
-		mat4.rotateZ(trsMatrix, trsMatrix, 0.2);
-		mat4.scale(trsMatrix, trsMatrix, vec3.fromValues(1.2, 1.2, 1.0));
-		this.mWhiteSquare.draw(trsMatrix);
-		
-		mat4.identity(trsMatrix); // Reset matrix to identity
-		mat4.translate(trsMatrix, trsMatrix, vec3.fromValues(0.25, -0.25, 0.0));
-		mat4.rotateZ(trsMatrix, trsMatrix, -0.765);
-		mat4.scale(trsMatrix, trsMatrix, vec3.fromValues(0.4, 0.4, 1.0));
-		this.mBlueSquare.draw(trsMatrix); */		
-	}	
+        this.mRedSq = new engine.Renderable();
+        this.mRedSq.setColor([1, 0.25, 0.25, 1]);
+
+        this.mTLSq = new engine.Renderable();
+        this.mTLSq.setColor([0.9, 0.1, 0.1, 1]);
+
+        this.mTRSq = new engine.Renderable();
+        this.mTRSq.setColor([0.6, 0.5, 0.4, 1]);
+
+        this.mBRSq = new engine.Renderable();
+        this.mBRSq.setColor([0.1, 0.1, 0.9, 1]);
+
+        this.mBLSq = new engine.Renderable();
+        this.mBLSq.setColor([0.1, 0.1, 0.1, 1]);
+
+        engine.clearCanvas([0.9, 0.9, 0.9, 1]);
+
+        this.mCamera.setViewAndCameraMatrix();
+
+        this.mBlueSq.getXform().setPosition(20, 60);
+        this.mBlueSq.getXform().setRotationRad(0.2);
+        this.mBlueSq.getXform().setSize(5, 5);
+        this.mBlueSq.draw(this.mCamera);
+
+        this.mRedSq.getXform().setPosition(20, 60);
+        this.mRedSq.getXform().setSize(2, 2);
+        this.mRedSq.draw(this.mCamera);
+
+        // top left
+        this.mTLSq.getXform().setPosition(10, 65);
+        this.mTLSq.draw(this.mCamera);
+
+        // top right
+        this.mTRSq.getXform().setPosition(30, 65);
+        this.mTRSq.draw(this.mCamera);
+
+        // bottom right
+        this.mBRSq.getXform().setPosition(30, 55);
+        this.mBRSq.draw(this.mCamera);
+
+        // bottom left
+        this.mBLSq.getXform().setPosition(10, 55);
+        this.mBLSq.draw(this.mCamera);
+    }
 }
 
 window.onload = function() {
-	new Game('GlCanvas');
+    new Game('GlCanvas');
 }
-
-
-/* Old 2 squres drawing no transform stuff
-	this.mWhiteSquare.draw();
-	this.mRedSquare.draw();  */

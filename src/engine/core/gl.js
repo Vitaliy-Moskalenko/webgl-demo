@@ -2,7 +2,6 @@
 
 var mCanvas = null;
 var mGL     = null;
-var mShader = null;
 
 function getGL() { return mGL; }
 
