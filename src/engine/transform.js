@@ -47,7 +47,7 @@ class Transform {
 	getRotationRad() { return this.mRotation; }
 	getRotationDegree() { return this.mRotation * 180.0 / Math.PI; }
 
-	incRotationRad(deltaRadians) { this.setRotationRad(this.mRotation * deltaRadians); 	}
+	incRotationRad(deltaRadians) { this.setRotationRad(this.mRotation + deltaRadians); 	}
 
 	incRotationDegrees(deltaDegrees) { this.incRotationRad(deltaDegrees * Math.PI / 180.0); }
 
