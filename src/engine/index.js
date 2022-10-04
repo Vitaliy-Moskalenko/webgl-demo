@@ -1,7 +1,8 @@
 "use strict";
 
 // Utils
-import Camera from "./camera";
+import * as input from "./input.js";
+import Camera from "./camera.js";
 import Transform from "./transform.js";
 import Renderable from "./renderable.js";
 
@@ -14,12 +15,13 @@ function init(htmlCanvasId) {
 	glSys.init(htmlCanvasId);
 	vertexBuffer.init();
 	shaderResources.init();
+	input.init();
 }
 
 function clearCanvas(color) {
-	var gl = glSys.getGL();
+	let gl = glSys.getGL();
 	gl.clearColor(color[0], color[1], color[2], color[3]);
 	gl.clear(gl.COLOR_BUFFER_BIT);	
 }
 
-export default { Camera, Renderable, Transform, init, clearCanvas }
+export default { Camera, Renderable, Transform, init, input, clearCanvas }

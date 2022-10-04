@@ -1,62 +1,78 @@
 "use strict";
 
+import * as loop from "../engine/core/loop.js";
 import engine from "../engine/index";
 
 class Game {
-    constructor(htmlCanvasId) {
-        engine.init(htmlCanvasId);
+    constructor() {
+        this.mBlueSq  = null;
+        this.mGreenSq = null;
 
+        this.mCamera = null;
+    }    
+
+    init() {
         this.mCamera = new engine.Camera(vec2.fromValues(20, 60), 20, [20, 40, 600, 300]);
+        this.mCamera.setBackgroundColor([0.8, 0.8, 0.8, 1]);
 
         this.mBlueSq = new engine.Renderable();
-        this.mBlueSq.setColor([0.25, 0.25, 0.95, 1]);
-
-        this.mRedSq = new engine.Renderable();
-        this.mRedSq.setColor([1, 0.25, 0.25, 1]);
-
-        this.mTLSq = new engine.Renderable();
-        this.mTLSq.setColor([0.9, 0.1, 0.1, 1]);
-
-        this.mTRSq = new engine.Renderable();
-        this.mTRSq.setColor([0.6, 0.5, 0.4, 1]);
-
-        this.mBRSq = new engine.Renderable();
-        this.mBRSq.setColor([0.1, 0.1, 0.9, 1]);
-
-        this.mBLSq = new engine.Renderable();
-        this.mBLSq.setColor([0.1, 0.1, 0.1, 1]);
-
-        engine.clearCanvas([0.9, 0.9, 0.9, 1]);
-
-        this.mCamera.setViewAndCameraMatrix();
-
+        this.mBlueSq.setColor([0, 0, 1, 1]);
         this.mBlueSq.getXform().setPosition(20, 60);
         this.mBlueSq.getXform().setRotationRad(0.2);
         this.mBlueSq.getXform().setSize(5, 5);
+
+        this.mGreenSq = new engine.Renderable();
+        this.mGreenSq.setColor([0, 1, 0, 1]);
+        this.mGreenSq.getXform().setPosition(10, 60);
+        this.mGreenSq.getXform().setSize(2, 2);
+    }
+
+    draw() {
+        engine.clearCanvas([0.9, 0.9, 0.9, 1.0]);
+        this.mCamera.setViewAndCameraMatrix();
+
         this.mBlueSq.draw(this.mCamera);
+        this.mGreenSq.draw(this.mCamera);
+    }
 
-        this.mRedSq.getXform().setPosition(20, 60);
-        this.mRedSq.getXform().setSize(2, 2);
-        this.mRedSq.draw(this.mCamera);
+    update() {
+        var dX = 0.05;
+        var blueXform  = this.mBlueSq.getXform();
+        var greenXform = this.mGreenSq.getXform();
 
-        // top left
-        this.mTLSq.getXform().setPosition(10, 65);
-        this.mTLSq.draw(this.mCamera);
+        if(engine.input.isKeyPressed(engine.input.keys.RIGHT)) {
+            if(blueXform.getXpos() > 30)
+                blueXform.setPosition(10, 60);
 
-        // top right
-        this.mTRSq.getXform().setPosition(30, 65);
-        this.mTRSq.draw(this.mCamera);
+            blueXform.incXposBy(dX);    
+        }
 
-        // bottom right
-        this.mBRSq.getXform().setPosition(30, 55);
-        this.mBRSq.draw(this.mCamera);
+        if(engine.input.isKeyPressed(engine.input.keys.LEFT)) {
+            if(blueXform.getXpos() < 0)
+                blueXform.setPosition(60, 60);
 
-        // bottom left
-        this.mBLSq.getXform().setPosition(10, 55);
-        this.mBLSq.draw(this.mCamera);
+            blueXform.incXposBy(-dX);    
+        }        
+
+        if(engine.input.isKeyPressed(engine.input.keys.UP)) {
+            blueXform.incRotationDegrees(2);
+        }
+
+        if(engine.input.isKeyPressed(engine.input.keys.DOWN)) {
+            if(greenXform.getWidth() > 5)
+                greenXform.setSize(1, 1);
+
+                greenXform.incSizeBy(0.1);   
+            
+            console.clear();
+            console.log( blueXform.getSize() );
+        }
     }
 }
 
 window.onload = function() {
-    new Game('GlCanvas');
+    engine.init("GlCanvas");
+    var game = new Game();
+
+    loop.start(game);
 }
