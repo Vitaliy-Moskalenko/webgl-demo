@@ -1,11 +1,13 @@
 "use strict";
 
+// Resources
+import * as text from "./resources/text.js"
 // Utils
 import * as input from "./input.js";
 import Camera from "./camera.js";
 import Transform from "./transform.js";
 import Renderable from "./renderable.js";
-
+// Local to this file
 import * as glSys from "./core/gl.js";
 import * as vertexBuffer from "./core/vertex_buffer.js";
 import * as shaderResources from "./core/shader_resources.js";
@@ -24,4 +26,9 @@ function clearCanvas(color) {
 	gl.clear(gl.COLOR_BUFFER_BIT);	
 }
 
-export default { Camera, Renderable, Transform, init, input, clearCanvas }
+export default { 
+	text,  // Resource suport
+	input, // Input support
+	Camera, Renderable, Transform,
+	init, clearCanvas
+}

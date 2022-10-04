@@ -2,6 +2,7 @@
 
 import * as glSys from "./core/gl.js";
 import * as vertexBuffer from "./core/vertex_buffer.js";
+import * as text from "./resources/text.js";
 
 class SimpleShader {
 	
@@ -14,8 +15,8 @@ class SimpleShader {
 		
 		let gl = glSys.getGL();
 		
-		this.mVertexShader   = _loadAndCompileShader(vertexShaderPath, gl.VERTEX_SHADER);
-		this.mFragmentShader = _loadAndCompileShader(fragmentShaderPath, gl.FRAGMENT_SHADER);
+		this.mVertexShader   = _compileShader(vertexShaderPath, gl.VERTEX_SHADER);
+		this.mFragmentShader = _compileShader(fragmentShaderPath, gl.FRAGMENT_SHADER);
 		
 		this.mCompiledShader = gl.createProgram();
 		gl.attachShader(this.mCompiledShader, this.mVertexShader);
@@ -55,15 +56,20 @@ class SimpleShader {
 **************************************************/
 
 // Return compiled shader to the DOM. The id is id of the shader source script.
-function _loadAndCompileShader(filePath, shaderType) {
-	let shaderSrc = null, compiledShader = null;
+function _compileShader(filePath, shaderType) {
+	var shaderSrc = null, compiledShader = null;
 	let gl = glSys.getGL();
 	
-	let xmlReq = new XMLHttpRequest();
-	xmlReq.open('GET', filePath, false);
-	try {
-		xmlReq.send();
+	shaderSrc = text.get(filePath);
+	if(shaderSrc === null) {
+		throw new Error("WARNING: " + filePath + " loading failed");
+		return null;
 	}
+
+	/* Sync old-styled request 	
+	var xmlReq = new XMLHttpRequest();
+	xmlReq.open('GET', filePath, false);
+	try { xmlReq.send(); }
 	catch(err) {
 		throw new Error("Failed to load shader file: " + filePath);
 		return null;
@@ -73,7 +79,7 @@ function _loadAndCompileShader(filePath, shaderType) {
     if (shaderSrc === null) {
         throw new Error("WARNING: Loading of:" + filePath + " Failed!");
         return null;
-    }	
+    }	*/
 	
 	compiledShader = gl.createShader(shaderType);
 	
