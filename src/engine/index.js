@@ -1,7 +1,8 @@
 "use strict";
 
 // Resources
-import * as text from "./resources/text.js"
+import * as text from "./resources/text.js";
+import * as xml from "./resources/xml.js";
 // Utils
 import * as input from "./input.js";
 import Camera from "./camera.js";
@@ -27,8 +28,8 @@ function clearCanvas(color) {
 }
 
 export default { 
-	text,  // Resource suport
-	input, // Input support
+	text, xml, // Resource support
+	input,     // Input support
 	Camera, Renderable, Transform,
 	init, clearCanvas
 }

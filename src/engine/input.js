@@ -51,7 +51,7 @@ function onKeyUp(event) {
 function init() {
     var i;
     for(i=0; i<keys.LAST_KEY_CODE; ++i) 
-        mKeyPressed[i] = mKeyPreviousState = mKeyClicked = false;
+        mKeyPressed[i] = mKeyPreviousState[i] = mKeyClicked[i] = false;
 
     window.addEventListener('keyup', onKeyUp);
     window.addEventListener('keydown', onKeyDown);
@@ -73,4 +73,4 @@ function isKeyClicked(keyCode) {
     return mKeyClicked[keyCode];
 }
 
-export { keys, init, isKeyClicked, isKeyPressed }
+export { keys, init, update, isKeyClicked, isKeyPressed }

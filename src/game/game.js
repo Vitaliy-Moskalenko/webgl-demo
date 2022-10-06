@@ -1,72 +1,65 @@
 "use strict";
 
 import * as loop from "../engine/core/loop.js";
-import engine from "../engine/index";
+import engine from "../engine/index.js";
+import SceneFileParser from "./util/scene_file_parser.js";
 
 class Game {
     constructor() {
-        this.mBlueSq  = null;
-        this.mGreenSq = null;
+        this.mSceneFile = "assets/scene.xml";
+        this.mSquareSet  = [];
 
         this.mCamera = null;
     }    
 
-    init() {
-        this.mCamera = new engine.Camera(vec2.fromValues(20, 60), 20, [20, 40, 600, 300]);
-        this.mCamera.setBackgroundColor([0.8, 0.8, 0.8, 1]);
+    init() { 
+        var sceneParser = new SceneFileParser(engine.xml.get(this.mSceneFile));
 
-        this.mBlueSq = new engine.Renderable();
-        this.mBlueSq.setColor([0, 0, 1, 1]);
-        this.mBlueSq.getXform().setPosition(20, 60);
-        this.mBlueSq.getXform().setRotationRad(0.2);
-        this.mBlueSq.getXform().setSize(5, 5);
+        this.mCamera = sceneParser.parseCamera();
 
-        this.mGreenSq = new engine.Renderable();
-        this.mGreenSq.setColor([0, 1, 0, 1]);
-        this.mGreenSq.getXform().setPosition(10, 60);
-        this.mGreenSq.getXform().setSize(2, 2);
+        sceneParser.parseSquares(this.mSquareSet);
     }
 
     draw() {
         engine.clearCanvas([0.9, 0.9, 0.9, 1.0]);
         this.mCamera.setViewAndCameraMatrix();
 
-        this.mBlueSq.draw(this.mCamera);
-        this.mGreenSq.draw(this.mCamera);
+        var i;
+        for(i=0; i<this.mSquareSet.length; ++i)
+            this.mSquareSet[i].draw(this.mCamera);
     }
 
     update() {
+        var xForm = this.mSquareSet[0].getXform();
         var dX = 0.05;
-        var blueXform  = this.mBlueSq.getXform();
-        var greenXform = this.mGreenSq.getXform();
 
         if(engine.input.isKeyPressed(engine.input.keys.RIGHT)) {
-            if(blueXform.getXpos() > 30)
-                blueXform.setPosition(10, 60);
+            if(xForm.getXpos() > 30) 
+                xForm.setPosition(10, 60);
 
-            blueXform.incXposBy(dX);    
+            xForm.incXposBy(dX);    
         }
-
-        if(engine.input.isKeyPressed(engine.input.keys.LEFT)) {
-            if(blueXform.getXpos() < 0)
-                blueXform.setPosition(60, 60);
-
-            blueXform.incXposBy(-dX);    
-        }        
 
         if(engine.input.isKeyPressed(engine.input.keys.UP)) {
-            blueXform.incRotationDegrees(2);
+            xForm.incRotationDegrees(1);
         }
+
+        xForm = this.mSquareSet[1].getXform();
 
         if(engine.input.isKeyPressed(engine.input.keys.DOWN)) {
-            if(greenXform.getWidth() > 5)
-                greenXform.setSize(1, 1);
+            if(xForm.getWidth() > 5)
+                xForm.setWidth(2, 2);
 
-                greenXform.incSizeBy(0.1);   
-            
-            console.clear();
-            console.log( blueXform.getSize() );
+            xForm.incSizeBy(dX);
         }
+    }
+
+    load() {
+        engine.xml.load(this.mSceneFile);
+    }
+
+    unload() {
+        engine.xml.unload(this.mSceneFile);
     }
 }
 

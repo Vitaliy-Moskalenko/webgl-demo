@@ -42,7 +42,7 @@ class Transform {
 			this.mRotation -= (2 * Math.PI);
 	}
 
-	setRotationDegree(degrees) { this.mRotationRad(degrees * Math.PI / 180.0); }
+	setRotationDegree(degrees) { this.setRotationRad(degrees * Math.PI / 180.0); }
 
 	getRotationRad() { return this.mRotation; }
 	getRotationDegree() { return this.mRotation * 180.0 / Math.PI; }

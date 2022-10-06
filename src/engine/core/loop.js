@@ -1,5 +1,8 @@
 "use strict";
 
+import * as map from "./resource_map.js";
+import * as input from "../input.js";
+
 const UPS = 60;          // Updates per second
 const MPF = 1000 / UPS;  // Milliseconds per update
 
@@ -22,16 +25,22 @@ function loopOnce() {
         mLagTime += elapsedTime;
 
         while((mLagTime >= MPF) && isRunning) {
+            input.update();
             mCurrentScene.update();
             mLagTime -= MPF;
         }
     }
 }
 
-function start(scene) {
+async function start(scene) {
     if(isRunning) throw new Error("Loop already running");
 
     mCurrentScene = scene;
+    mCurrentScene.load(); 
+
+    // Wait for any async requests before game load
+    await map.waitOnPromises();
+;
     mCurrentScene.init();
 
     mPrevTime = performance.now();

@@ -10,7 +10,7 @@ class MapEntry {
     incRef() { this.refCount++; }
 
     set(data) { this.mData = data; }
-    get() { return this.mData; }
+    data() { return this.mData; }
 
     canRemove() { return (this.refCount == 0); }
 }
@@ -26,11 +26,11 @@ function loadRequested(path) { mMap.set(path, new MapEntry(null)); }
 
 function incRef(path) { mMap.get(path).incRef; }
 
-function get(path) {
+function get(path) {     
     if(!has(path)) 
-        throw new Error("Error [" + path + "]: not loaded");
+        throw new Error("Error [" + path + "]: not loaded.");
 
-    return mMap.get(path).get();
+    return mMap.get(path).data();
 }
 
 /* Generic load function

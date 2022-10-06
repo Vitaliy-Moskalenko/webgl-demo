@@ -13,7 +13,7 @@ function createShaders() {
 	mConstColorShader = new SimpleShader(simpleVS, simpleFS);
 }
 
-function init() {  console.log("Shader_res_init");
+function init() { 
 	var loadPromise = new Promise(
 		async function(resolve) {
 			await Promise.all([
