@@ -13,6 +13,22 @@ var isRunning     = false;
 var mCurrentScene = null;
 var frameId       = -1;
 
+async function start(scene) {
+    if(isRunning) throw new Error("Loop already running");
+
+    mCurrentScene = scene;
+    mCurrentScene.load();
+    
+    await map.waitOnPromises(); // Wait for any async requests before game load
+;
+    mCurrentScene.init();
+
+    mPrevTime = performance.now();
+    mLagTime  = 0.0;
+    isRunning = true;
+    frameId   = requestAnimationFrame(loopOnce);
+}
+
 function loopOnce() {
     if(isRunning) {
         frameId = requestAnimationFrame(loopOnce); // Setup next call to loopOnce
@@ -30,23 +46,6 @@ function loopOnce() {
             mLagTime -= MPF;
         }
     }
-}
-
-async function start(scene) {
-    if(isRunning) throw new Error("Loop already running");
-
-    mCurrentScene = scene;
-    mCurrentScene.load(); 
-
-    // Wait for any async requests before game load
-    await map.waitOnPromises();
-;
-    mCurrentScene.init();
-
-    mPrevTime = performance.now();
-    mLagTime  = 0.0;
-    isRunning = true;
-    frameId   = requestAnimationFrame(loopOnce);
 }
 
 function stop() {

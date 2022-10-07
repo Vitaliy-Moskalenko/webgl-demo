@@ -2,56 +2,73 @@
 
 import * as loop from "../engine/core/loop.js";
 import engine from "../engine/index.js";
+import Renderable from "../engine/renderable.js";
 import SceneFileParser from "./util/scene_file_parser.js";
 
-class Game {
+import BlueLevel from "./blue_level.js";
+
+
+class Game extends engine.Scene {
     constructor() {
-        this.mSceneFile = "assets/scene.xml";
-        this.mSquareSet  = [];
+        super();
 
         this.mCamera = null;
+
+        this.mHero = null;
+        this.mSupportObject = null;
     }    
 
     init() { 
-        var sceneParser = new SceneFileParser(engine.xml.get(this.mSceneFile));
+        this.mCamera = new engine.Camera(vec2.fromValues(20, 60), 20, [20, 40, 600, 300]);
+        this.mCamera.setBackgroundColor([0.8, 0.8, 0.8, 1]);
 
-        this.mCamera = sceneParser.parseCamera();
+        this.mSupportObject = new engine.Renderable();
+        this.mSupportObject.setColor([0.8, 0.2, 0.8, 1]);
+        this.mSupportObject.getXform().setPosition(20, 60);
+        this.mSupportObject.getXform().setSize(5, 5);
 
-        sceneParser.parseSquares(this.mSquareSet);
+        this.mHero = new engine.Renderable();
+        this.mHero.setColor([0, 0, 1, 1]);
+        this.mHero.getXform().setPosition(20, 60);
+        this.mHero.getXform().setSize(2, 3);
     }
 
     draw() {
         engine.clearCanvas([0.9, 0.9, 0.9, 1.0]);
         this.mCamera.setViewAndCameraMatrix();
 
-        var i;
-        for(i=0; i<this.mSquareSet.length; ++i)
-            this.mSquareSet[i].draw(this.mCamera);
+        this.mSupportObject.draw(this.mCamera);
+        this.mHero.draw(this.mCamera);
+
+        /* for(var i=0; i<this.mSquareSet.length; ++i)
+            this.mSquareSet[i].draw(this.mCamera); */
     }
 
     update() {
-        var xForm = this.mSquareSet[0].getXform();
-        var dX = 0.05;
+        var dX = 0.075;
+        var xForm = this.mHero.getXform();
 
         if(engine.input.isKeyPressed(engine.input.keys.RIGHT)) {
+            xForm.incXposBy(dX);
             if(xForm.getXpos() > 30) 
-                xForm.setPosition(10, 60);
-
-            xForm.incXposBy(dX);    
+                xForm.setPosition(12, 60);                
         }
 
-        if(engine.input.isKeyPressed(engine.input.keys.UP)) {
-            xForm.incRotationDegrees(1);
-        }
+        if(engine.input.isKeyPressed(engine.input.keys.LEFT)) {
+            xForm.incXposBy(-dX);
+            if(xForm.getXpos() < 30) 
+                this.nextLevel();
+        }        
 
-        xForm = this.mSquareSet[1].getXform();
+        if(engine.input.isKeyPressed(engine.input.keys.Q))
+            this.stop();
+    }
 
-        if(engine.input.isKeyPressed(engine.input.keys.DOWN)) {
-            if(xForm.getWidth() > 5)
-                xForm.setWidth(2, 2);
+    next() {
+        super.next();
 
-            xForm.incSizeBy(dX);
-        }
+        var nextLevel = new BlueLevel();
+        nextLevel.start();
     }
 
     load() {
@@ -63,9 +80,11 @@ class Game {
     }
 }
 
+export default Gamepad;
+
 window.onload = function() {
     engine.init("GlCanvas");
     var game = new Game();
 
-    loop.start(game);
+    game.start(game);
 }

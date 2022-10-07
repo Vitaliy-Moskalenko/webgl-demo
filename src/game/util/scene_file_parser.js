@@ -38,7 +38,7 @@ class SceneFileParser {
             w = elements.item(i).attributes.getNamedItem("Width").value >> 0;
             h = elements.item(i).attributes.getNamedItem("Height").value >> 0;
             r = elements.item(i).attributes.getNamedItem("Rotation").value >> 0;
-            c = elements.item(1).attributes.getNamedItem("Color").value.split(" ");
+            c = elements.item(i).attributes.getNamedItem("Color").value.split(" ");
 
             sq = new engine.Renderable();            
             for(j=0; j<4; ++j) c[j] >> 0;
