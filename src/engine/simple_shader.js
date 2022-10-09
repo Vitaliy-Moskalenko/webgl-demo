@@ -48,7 +48,16 @@ class SimpleShader {
 		gl.uniform4fv(this.mPixelColorRef, pixelColor);
 		gl.uniformMatrix4fv(this.mModelMatrixRef, false, trsMatrix);
 		gl.uniformMatrix4fv(this.mCameraMatrixRef, false, cameraMatrix);
-	}	
+	}
+
+	cleanUp() {
+		var gl = glSys.getGL();
+		gl.detachShader(this.mCompiledShader, this.mVertexShader);
+		gl.detachShader(this.mCompiledShader, this.mFragmentShader);
+		gl.deleteShader(this.mVertexShader);
+		gl.deleteShader(this.mFragmentShader);
+		gl.deleteProgram(this.mCompiledShader);
+	}
 }
 
 /**************************************************

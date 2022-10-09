@@ -33,4 +33,10 @@ function getConstColorShader() {
 	return mConstColorShader;
 }
 
-export { init, getConstColorShader }
+function cleanUp() {
+	mConstColorShader.cleanUp();
+	text.unload(simpleVS);
+	text.unload(simpleFS);
+}
+
+export { init, getConstColorShader, cleanUp }

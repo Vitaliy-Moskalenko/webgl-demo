@@ -1,10 +1,6 @@
 "use strict";
 
-import * as loop from "../engine/core/loop.js";
 import engine from "../engine/index.js";
-import Renderable from "../engine/renderable.js";
-import SceneFileParser from "./util/scene_file_parser.js";
-
 import BlueLevel from "./blue_level.js";
 
 
@@ -56,8 +52,8 @@ class Game extends engine.Scene {
 
         if(engine.input.isKeyPressed(engine.input.keys.LEFT)) {
             xForm.incXposBy(-dX);
-            if(xForm.getXpos() < 30) 
-                this.nextLevel();
+            if(xForm.getXpos() < 11)
+                this.next();
         }        
 
         if(engine.input.isKeyPressed(engine.input.keys.Q))
@@ -70,17 +66,9 @@ class Game extends engine.Scene {
         var nextLevel = new BlueLevel();
         nextLevel.start();
     }
-
-    load() {
-        engine.xml.load(this.mSceneFile);
-    }
-
-    unload() {
-        engine.xml.unload(this.mSceneFile);
-    }
 }
 
-export default Gamepad;
+export default Game;
 
 window.onload = function() {
     engine.init("GlCanvas");

@@ -14,7 +14,7 @@ function parseXML(text) {
     return mParser.parseFromString(text, "text/xml");
 }
 
-function load(path) {
+function load(path) { // console.log("xml.js:17 Try to load  " + path);
     return map.loadDecodeParse(path, decodeXML, parseXML);
 }
 

@@ -21,4 +21,11 @@ function init() {
 	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
 }
 
-export { init, get }
+function cleanUp() {
+    if(mVertexBuffer !== null) {
+        glSys.getGL().deleteBuffer(mVertexBuffer);
+        mVertexBuffer = null;
+    }
+}
+
+export { init, get, cleanUp }

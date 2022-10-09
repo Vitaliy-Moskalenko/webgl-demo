@@ -1,6 +1,5 @@
 "use strict";
 
-import SceneFileParser from "../game/util/scene_file_parser.js";
 import * as loop from "./core/loop.js";
 import engine from "./index.js";
 
@@ -35,9 +34,9 @@ class Scene {
 
     unload() {}
 
-    draw() {}
+    draw() { throw abstractMethodError ; }
 
-    update() {}
+    update() { throw abstractMethodError; }
 }
 
-export default SceneFileParser;
+export default Scene;
