@@ -1,6 +1,7 @@
 "use strict";
 
 // Resources
+import * as audio from "./resources/audio.js";
 import * as text from "./resources/text.js";
 import * as xml from "./resources/xml.js";
 // Utils
@@ -21,10 +22,12 @@ function init(htmlCanvasId) {
 	vertexBuffer.init();
 	shaderResources.init();
 	input.init();
+	audio.init();
 }
 
 function cleanUp() {
 	loop.cleanUp();
+	audio.cleanUp();
 	input.cleanUp();
 	shaderResources.cleanUp();
 	vertexBuffer.cleanUp();
@@ -38,7 +41,7 @@ function clearCanvas(color) {
 }
 
 export default { 
-	text, xml, // Resource support
+	audio, text, xml, // Resource support
 	input,     // Input support
 	Camera, Scene, Renderable, Transform,
 	init, cleanUp, clearCanvas

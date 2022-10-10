@@ -8,6 +8,9 @@ class Game extends engine.Scene {
     constructor() {
         super();
 
+        this.mBackgroundAudio = "assets/sounds/bg_clip.mp3";
+        this.mCue = "assets/sounds/game_cue.wav";
+
         this.mCamera = null;
 
         this.mHero = null;
@@ -27,6 +30,20 @@ class Game extends engine.Scene {
         this.mHero.setColor([0, 0, 1, 1]);
         this.mHero.getXform().setPosition(20, 60);
         this.mHero.getXform().setSize(2, 3);
+
+        engine.audio.playBackground(this.mBackgroundAudio, 1.0);
+    }
+
+    load() {
+        engine.audio.load(this.mBackgroundAudio);
+        engine.audio.load(this.mCue);
+    }
+
+    unload() {
+        engine.audio.stopBackground();
+
+        engine.audio.unload(this.mBackgroundAudio);
+        engine.audio.unload(this.mCue);
     }
 
     draw() {
@@ -45,12 +62,18 @@ class Game extends engine.Scene {
         var xForm = this.mHero.getXform();
 
         if(engine.input.isKeyPressed(engine.input.keys.RIGHT)) {
+            engine.audio.playCue(this.mCue, 0.5);
+            engine.audio.incBackgroundVolume(0.05);
+
             xForm.incXposBy(dX);
             if(xForm.getXpos() > 30) 
                 xForm.setPosition(12, 60);                
         }
 
         if(engine.input.isKeyPressed(engine.input.keys.LEFT)) {
+            engine.audio.playCue(this.mCue, 1.5);
+            engine.audio.incBackgroundVolume(-0.05);
+
             xForm.incXposBy(-dX);
             if(xForm.getXpos() < 11)
                 this.next();
