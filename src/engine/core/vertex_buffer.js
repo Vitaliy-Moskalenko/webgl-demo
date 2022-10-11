@@ -2,15 +2,21 @@
 
 import * as glSys from "./gl.js";
 
-let mVertexBuffer = null;
+var mVertexBuffer = null;
+var mTextureCoordBuffer = null;
 
-function get() { return mVertexBuffer; }
-
-let vertices = [
+var vertices = [
      0.5,  0.5, 0.0,
     -0.5,  0.5, 0.0,
      0.5, -0.5, 0.0,
     -0.5, -0.5, 0.0
+];
+
+var textureCoordinates = [
+    1.0, 1.0, 
+    0.0, 1.0, 
+    1.0, 0.0, 
+    0.0, 0.0
 ];
 
 function init() {
@@ -19,13 +25,28 @@ function init() {
 	mVertexBuffer = gl.createBuffer();
 	gl.bindBuffer(gl.ARRAY_BUFFER, mVertexBuffer);
 	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+
+    mTextureCoordBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, mTextureCoordBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(mTextureCoordBuffer), gl.STATIC_DRAW);
+
 }
 
+function get() { return mVertexBuffer; }
+
+function getTextCoord() { return mTextureCoordBuffer; }
+
 function cleanUp() {
+    var gl = glSys.getGL();
     if(mVertexBuffer !== null) {
-        glSys.getGL().deleteBuffer(mVertexBuffer);
+        gl.deleteBuffer(mVertexBuffer);
         mVertexBuffer = null;
+    }
+
+    if(mTextureCoordBuffer !== null) {
+        gl.deleteBuffer(mTextureCoordBuffer);
+        mTextureCoordBuffer = null;
     }
 }
 
-export { init, get, cleanUp }
+export { init, get, getTextCoord, cleanUp }

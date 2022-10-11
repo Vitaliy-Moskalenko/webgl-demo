@@ -5,6 +5,8 @@ import BlueLevel from "./blue_level.js";
 
 
 class Game extends engine.Scene {
+    // Scene resource async loading requests perform in loop.start - (SceneObj).load call.
+    // Unload and clear funcs calls live in Abstract Scene super-class.
     constructor() {
         super();
 
@@ -31,12 +33,12 @@ class Game extends engine.Scene {
         this.mHero.getXform().setPosition(20, 60);
         this.mHero.getXform().setSize(2, 3);
 
-        engine.audio.playBackground(this.mBackgroundAudio, 1.0);
+        // engine.audio.playBackground(this.mBackgroundAudio, 1.0);
     }
 
     load() {
         engine.audio.load(this.mBackgroundAudio);
-        engine.audio.load(this.mCue);
+        engine.audio.load(this.mCue);        
     }
 
     unload() {
@@ -64,6 +66,8 @@ class Game extends engine.Scene {
         if(engine.input.isKeyPressed(engine.input.keys.RIGHT)) {
             engine.audio.playCue(this.mCue, 0.5);
             engine.audio.incBackgroundVolume(0.05);
+
+            // debug: engine.audio.getMap().showRefCounter(this.mCue);
 
             xForm.incXposBy(dX);
             if(xForm.getXpos() > 30) 

@@ -33,6 +33,10 @@ function get(path) {
     return mMap.get(path).data();
 }
 
+function showRefCounter(path) {
+    console.log( mMap.get(path).refCount );
+}
+
 /* Generic load function
     1. Fetch from server
     2. DecodeResource on the loaded package
@@ -75,5 +79,10 @@ async function waitOnPromises() {
     mOutstandingPromises = [];
 }
 
-
-export { has, get, set, loadRequested, incRef, loadDecodeParse, unload, pushPromise, waitOnPromises }
+export {
+    has, get, set,
+    loadRequested,
+    incRef, showRefCounter,
+    loadDecodeParse, unload,
+    pushPromise, waitOnPromises
+}

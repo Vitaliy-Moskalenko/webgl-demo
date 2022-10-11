@@ -25,7 +25,7 @@ var defaultGain = 0.1;
  *     https://stackoverflow.com/questions/50490304/how-to-make-audio-autoplay-on-chrome
  */
 function init() {
-    try {
+    // try {
         var AudioContext = window.AudioContext || window.webkitAudioContext;
         mAudioContext = new AudioContext();
 
@@ -33,16 +33,16 @@ function init() {
         mMasterGain.connect(mAudioContext.destination);
         mMasterGain.gain.value = defaultGain;       // Set default Master value
 
-        mBackgroundGain = mAudioContext.createGain; // Connect background volume control
+        mBackgroundGain = mAudioContext.createGain(); // Connect background volume control
         mBackgroundGain.connect(mMasterGain);
         mBackgroundGain.gain.value = 1.0;
 
         mCueGain = mAudioContext.createGain();
         mCueGain.connect(mMasterGain);
         mCueGain.gain.value = 1.0;
-    } catch(e) {
-        throw new Error("Web Audio is not supported. Engine init failed.");
-    }
+    // } catch(e) {
+    //     throw new Error("Web Audio is not supported. Engine init failed.");
+    // }
 }
 
 function decodeResource(data) {
@@ -71,11 +71,11 @@ function playBackground(path, volume) {
         stopBackground();
         mBackgroundAudio = mAudioContext.createBufferSource();
         mBackgroundAudio.buffer = map.get(path);
-        mBackgroundAudio.loop(true);
+        mBackgroundAudio.loop = true;
         mBackgroundAudio.start(0);
 
         mBackgroundAudio.connect(mBackgroundGain);
-        setBackgroundVolume(valume);
+        setBackgroundVolume(volume);
     }
 }
 
@@ -119,12 +119,16 @@ function isBackgroundPlaying() {
     return (mBackgroundAudio !== null);
 }
 
+function getMap() {
+    return map;
+}
+
 function cleanUp() {
     mAudioContext.close();
     mAudioContext = null;
 }
 
-export {
+export {   getMap,
     init, cleanUp,
     has, load, unload,
     playCue,
