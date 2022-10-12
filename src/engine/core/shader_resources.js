@@ -15,7 +15,6 @@ var textureVS = "src/shaders/texture_vs.glsl";
 var textureFS = "src/shaders/texture_fs.glsl";
 var mTextureShader = null;
 
-
 function createShaders() {
 	mConstColorShader = new SimpleShader(simpleVS, simpleFS);
 	mTextureShader = new TextureShader(textureVS, textureFS);
@@ -41,7 +40,6 @@ function init() {
 
 function getConstColorShader() { return mConstColorShader; }
 function getTextureShader() { return mTextureShader; }
-
 
 function cleanUp() {
 	mConstColorShader.cleanUp();
