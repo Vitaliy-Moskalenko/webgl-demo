@@ -12,25 +12,19 @@ class TextureShader extends SimpleShader {
         this.mTextureCoordRef = null; // Reference to texture coordinates whithin shader
 
         var gl = glSys.getGL();
-        this.mTextureCoordRef = gl.getTextureShader
-
-
-
-
+        this.mTextureCoordRef = gl.getAttribLocation(this.mCompiledShader, "aTextureCoordinate");
+        this.mSampleRef = gl.getUniformLocation(this.mCompiledShader, "uSampler");
     }
 
-    activate() {
+    activate(pixelColor, trsMatrix, cameraMatrix) {
+        super.activate(pixelColor, trsMatrix, cameraMatrix);
 
-        // Enable texture coordinates array
         var gl = glSys.getGL();
         gl.bindBuffer(gl.ARRAY_BUFFER, this._getTexCoordBuffer());
-        gl.vertexAttributePointer(this.mTextureCoordRef, 2, gl.FLOAT, false, 0, 0);
-        gl.enableVertexAttribArray(this.mTextureCoordRef);
-        // Bind uSampler
-        gl.uniform1i
+        gl.vertexAttribPointer(this.mTextureCoordRef, 2, gl.FLOAT, false, 0, 0);
+        gl.enableVertexAttribArray(this.mTextureCoordRef, 0);
 
-
-
+        gl.uniform1i(this.mSampleRef, 0); // Bind uSampler to texture 0
     }
 
     _getTexCoordBuffer() {
@@ -38,4 +32,4 @@ class TextureShader extends SimpleShader {
     }
 }
 
-export default getTextureShader;
+export default TextureShader;

@@ -4,12 +4,15 @@
 import * as audio from "./resources/audio.js";
 import * as text from "./resources/text.js";
 import * as xml from "./resources/xml.js";
+import * as texture from "./resources/texture.js";
 // Utils
 import * as input from "./input.js";
 import Scene from "./scene.js";
 import Camera from "./camera.js";
 import Transform from "./transform.js";
-import Renderable from "./renderable.js";
+// Renderables
+import Renderable from "./renderables/renderable.js";
+import TextureRenderable from "./renderables/texture_renderable.js";
 // Local to this file
 import * as glSys from "./core/gl.js";
 import * as vertexBuffer from "./core/vertex_buffer.js";
@@ -41,8 +44,8 @@ function clearCanvas(color) {
 }
 
 export default { 
-	audio, text, xml, // Resource support
-	input,     // Input support
-	Camera, Scene, Renderable, Transform,
+	audio, text, xml, texture, // Resource support
+	input,                     // Input support
+	Camera, Scene, Renderable, TextureRenderable, Transform,
 	init, cleanUp, clearCanvas
 }

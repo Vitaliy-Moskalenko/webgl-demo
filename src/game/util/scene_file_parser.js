@@ -3,13 +3,21 @@
 import engine from "../../engine/index.js";
 
 class SceneFileParser {
-    constructor(xml) {
-        this.xml = xml;
+    constructor(sceneFilePath) {
+        this.mSceneXml = engine.text.get(sceneFilePath);
+    }
+
+    _getElements(tagElement) {
+        var elements = xmlContent.getElementsByTagName(tagElement);
+        if(elements.length === 0)
+            console.log("Warning: Level element[" + tagElement + "] not found.");
+    
+        return elements;
     }
 
     parseCamera() {
         var i;
-        var cameraElement = getElements(this.xml, "Camera");
+        var cameraElement = this._getElements(this.xml, "Camera");
         var cx = cameraElement[0].getAttribute("CenterX") >> 0;
         var cy = cameraElement[0].getAttribute("CenterY") >> 0;
         var w  = cameraElement[0].getAttribute("Width") >> 0;
@@ -28,7 +36,7 @@ class SceneFileParser {
     }
 
     parseSquares(sqSet) {
-        var elements = getElements(this.xml, "Square");
+        var elements = this._getElements(this.xml, "Square");
         var i, j, x, y, w, h, r, c, sq;
 
         for(i=0; i<elements.length; ++i) {
@@ -51,14 +59,30 @@ class SceneFileParser {
             sqSet.push(sq); 
         }        
     }
-}
 
-function getElements(xmlContent, tagElement) {
-    var elements = xmlContent.getElementsByTagName(tagElement);
-    if(elements.length === 0)
-        console.log("Warning: Level element[" + tagElement + "] not found.");
+    parseTextureSquares(sqSet) {
+        var elements = this._getElements("TextureSquare");
+        var i, j, x, y, w, h, r, c, t, sq;
+        for(i=0; i<elements.length; ++i) {
+            x = elements.item(i).attributes.getNamedItem("PosX").value >> 0;
+            y = elements.item(i).attributes.getNamedItem("PosY").value >> 0;
+            w = elements.item(i).attributes.getNamedItem("Widht").value >> 0;
+            h = elements.item(i).attributes.getNamedItem("Height").value >> 0;
+            r = elements.item(i).attributes.getNamedItem("Rotation").value >> 0;
+            c = elements.item(i).attributes.getNamedItem("Color").value >> 0;
+            t = elements.item(i).attributes.getNamedItem("Texture").value >> 0;
 
-    return elements;
+            sq = new engine.TextureRenderable(t);
+            for(j=0; j<4; ++j) c[j] >> 0;
+
+            sq.setColor(c);
+            sq.getXform().setPosition(x, y);
+            sq.getXform().setRotationDegree(r);
+            sq.getXform().setSize(w, h);
+
+            sqSet.push(sq);
+        }
+    }
 }
 
 export default SceneFileParser;

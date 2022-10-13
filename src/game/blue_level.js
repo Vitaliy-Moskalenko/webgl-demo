@@ -10,6 +10,10 @@ class BlueLevel extends engine.Scene {
         this.mCue = "assets/sounds/game_cue.wav";
 
         this.mSceneFile = "assets/blue_level.xml";
+
+        this.robo = "assets/minion_portal.jpg";
+        this.roboCollector = "assets/minion_collector.jpg";
+
         this.mSqSet = [];
         this.mCamera = null;
     }
@@ -17,15 +21,21 @@ class BlueLevel extends engine.Scene {
     init() {
         var sceneParser = new SceneFileParser(engine.xml.get(this.mSceneFile));
         this.mCamera = sceneParser.parseCamera();
+
         sceneParser.parseSquares(this.mSqSet);
+        sceneParser.parseTextureSquares(this.mSqSet);
 
         engine.audio.playBackground(this.mBackgroundAudio, 0.5);
     }
 
     load() {
         engine.xml.load(this.mSceneFile);
+
         engine.audio.load(this.mBackgroundAudio);
         engine.audio.load(this.mCue);
+
+        engine.texture.load(this.robo);
+        engine.texture.load(this.roboCollector);
     }
 
     unload() {
@@ -34,6 +44,9 @@ class BlueLevel extends engine.Scene {
         engine.xml.unload(this.mSceneFile);
         engine.audio.unload(this.mBackgroundAudio);
         engine.audio.unload(this.mCue);
+
+        engine.texture.unload(this.robo);
+        engine.texture.unload(this.roboCollector);
     }
 
     draw() {
@@ -46,8 +59,8 @@ class BlueLevel extends engine.Scene {
 
     update() {
         var dX = 0.07;
-        var xForm = this.mSqSet[1].getXform();
-
+        var xForm = this.mSqSet[0].getXform();
+        
         if(engine.input.isKeyPressed(engine.input.keys.RIGHT)) {
             engine.audio.playCue(this.mCue, 0.5);
 
@@ -63,6 +76,11 @@ class BlueLevel extends engine.Scene {
             if(xForm.getXpos() < 11)
                 this.next();
         }
+
+        var c = this.mSqSet[2].getColor();
+        var ca = c[3] + dX;
+        if(ca > 1) ca = 0;
+        c[3] = ca;
 
         if(engine.input.isKeyPressed(engine.input.keys.Q))
             this.stop();
