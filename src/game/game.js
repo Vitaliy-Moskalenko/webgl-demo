@@ -42,7 +42,7 @@ class Game extends engine.Scene {
         this.mSupportObject.setColor([0.8, 0.2, 0.8, 1]);
         this.mSupportObject.getXform().setPosition(20, 60);
         this.mSupportObject.getXform().setSize(5, 5);
-
+console.log( this.mRobo );
         this.mHero = new engine.Renderable();
         this.mHero.setColor([0, 0, 1, 1]);
         this.mHero.getXform().setPosition(20, 60);
@@ -52,7 +52,7 @@ class Game extends engine.Scene {
     }
 
     load() {
-        engine.texture.load(this.robo);
+        engine.texture.load(this.robo); 
         engine.texture.load(this.roboCollector);
 
         engine.audio.load(this.mBackgroundAudio);
@@ -111,7 +111,7 @@ class Game extends engine.Scene {
        
         if(engine.input.isKeyPressed(engine.input.keys.S)) {
             engine.audio.playCue(this.mCue, 0.5);
-            xFormRoboCollector.decSizeBy(0.05);
+            xFormRoboCollector.incSizeBy(-0.05);
             if(xFormRoboCollector.getWidth < 1)
                 xFormRoboCollector.setSize(2, 3);
         }        

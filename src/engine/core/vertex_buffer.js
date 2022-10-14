@@ -28,7 +28,7 @@ function init() {
 
     mTextureCoordBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, mTextureCoordBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(mTextureCoordBuffer), gl.STATIC_DRAW);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(textureCoordinates), gl.STATIC_DRAW);
 
 }
 

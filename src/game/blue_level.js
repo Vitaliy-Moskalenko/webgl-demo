@@ -14,16 +14,18 @@ class BlueLevel extends engine.Scene {
         this.robo = "assets/minion_portal.jpg";
         this.roboCollector = "assets/minion_collector.jpg";
 
-        this.mSqSet = [];
+        this.mSqSet  = [];
         this.mCamera = null;
     }
 
     init() {
-        var sceneParser = new SceneFileParser(engine.xml.get(this.mSceneFile));
+        var sceneParser = new SceneFileParser(this.mSceneFile);
         this.mCamera = sceneParser.parseCamera();
 
-        sceneParser.parseSquares(this.mSqSet);
+        sceneParser.parseSquares(this.mSqSet);   
         sceneParser.parseTextureSquares(this.mSqSet);
+console.log('Elmnts parsed:');
+console.log(this.mSqSet);        
 
         engine.audio.playBackground(this.mBackgroundAudio, 0.5);
     }
@@ -49,7 +51,8 @@ class BlueLevel extends engine.Scene {
         engine.texture.unload(this.roboCollector);
     }
 
-    draw() {
+    draw() {  
+        engine.clearCanvas([0.9, 0.9, 0.9, 1.0]);
         this.mCamera.setViewAndCameraMatrix();
 
         let i;

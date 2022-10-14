@@ -8,7 +8,7 @@ class SceneFileParser {
     }
 
     _getElements(tagElement) {
-        var elements = xmlContent.getElementsByTagName(tagElement);
+        var elements = this.mSceneXml.getElementsByTagName(tagElement);
         if(elements.length === 0)
             console.log("Warning: Level element[" + tagElement + "] not found.");
     
@@ -17,7 +17,7 @@ class SceneFileParser {
 
     parseCamera() {
         var i;
-        var cameraElement = this._getElements(this.xml, "Camera");
+        var cameraElement = this._getElements("Camera");
         var cx = cameraElement[0].getAttribute("CenterX") >> 0;
         var cy = cameraElement[0].getAttribute("CenterY") >> 0;
         var w  = cameraElement[0].getAttribute("Width") >> 0;
@@ -36,7 +36,7 @@ class SceneFileParser {
     }
 
     parseSquares(sqSet) {
-        var elements = this._getElements(this.xml, "Square");
+        var elements = this._getElements("Square");
         var i, j, x, y, w, h, r, c, sq;
 
         for(i=0; i<elements.length; ++i) {
@@ -66,11 +66,11 @@ class SceneFileParser {
         for(i=0; i<elements.length; ++i) {
             x = elements.item(i).attributes.getNamedItem("PosX").value >> 0;
             y = elements.item(i).attributes.getNamedItem("PosY").value >> 0;
-            w = elements.item(i).attributes.getNamedItem("Widht").value >> 0;
+            w = elements.item(i).attributes.getNamedItem("Width").value >> 0;
             h = elements.item(i).attributes.getNamedItem("Height").value >> 0;
             r = elements.item(i).attributes.getNamedItem("Rotation").value >> 0;
-            c = elements.item(i).attributes.getNamedItem("Color").value >> 0;
-            t = elements.item(i).attributes.getNamedItem("Texture").value >> 0;
+            c = elements.item(i).attributes.getNamedItem("Color").value.split(" ");
+            t = elements.item(i).attributes.getNamedItem("Texture").value;
 
             sq = new engine.TextureRenderable(t);
             for(j=0; j<4; ++j) c[j] >> 0;

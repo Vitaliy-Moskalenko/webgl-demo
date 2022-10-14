@@ -69,9 +69,9 @@ function unload(textureName) {
     }
 }
 
-function activate(textureName) {
+function activate(textureName) {      
     var gl = glSys.getGL();
-    var texInfo = get(textureName);
+    var texInfo = get(textureName);  
 
     gl.activeTexture(gl.TEXTURE0); 
     gl.bindTexture(gl.TEXTURE_2D, texInfo.mGlTextID);
