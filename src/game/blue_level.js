@@ -24,8 +24,8 @@ class BlueLevel extends engine.Scene {
 
         sceneParser.parseSquares(this.mSqSet);   
         sceneParser.parseTextureSquares(this.mSqSet);
-console.log('Elmnts parsed:');
-console.log(this.mSqSet);        
+// console.log('Elmnts parsed:');
+// console.log(this.mSqSet);
 
         engine.audio.playBackground(this.mBackgroundAudio, 0.5);
     }

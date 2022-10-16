@@ -11,7 +11,8 @@ void main(void) {
     vec4 c = texture2D(uSampler, vec2(vTexCoord.s, vTexCoord.t));
 
     // Different options: e.g. tint transparent area also
-    // vec4 result = c * (1.0 - uPixelColor.a) + vec3(uPixelColor) * uPixelColor.a
+    // vec4 result = c * (1.0 - uPixelColor.a) + uPixelColor * uPixelColor.a;
+
     // or: tint the textured area and leave transparent area as defined by texture
     vec3 r = vec3(c) * (1.0 - uPixelColor.a) + vec3(uPixelColor) * uPixelColor.a;
     vec4 result = vec4(r, c.a);
