@@ -13,6 +13,8 @@ import Transform from "./transform.js";
 // Renderables
 import Renderable from "./renderables/renderable.js";
 import TextureRenderable from "./renderables/texture_renderable.js";
+import SpriteRenderable from "./renderables/sprite_renderable.js";
+import { eTexCoordArrayIndex } from "./renderables/sprite_renderable.js";
 // Local to this file
 import * as glSys from "./core/gl.js";
 import * as vertexBuffer from "./core/vertex_buffer.js";
@@ -20,12 +22,12 @@ import * as shaderResources from "./core/shader_resources.js";
 import * as loop from "./core/loop.js";
 
 
-function init(htmlCanvasId) {
+function init(htmlCanvasId) { 
 	glSys.init(htmlCanvasId);
 	vertexBuffer.init();
-	shaderResources.init();
 	input.init();
 	audio.init();
+	shaderResources.init();	
 }
 
 function cleanUp() {
@@ -46,6 +48,7 @@ function clearCanvas(color) {
 export default { 
 	audio, text, xml, texture, // Resource support
 	input,                     // Input support
-	Camera, Scene, Renderable, TextureRenderable, Transform,
+	eTexCoordArrayIndex,       // Constants
+	Camera, Scene, Renderable, TextureRenderable, SpriteRenderable, Transform,
 	init, cleanUp, clearCanvas
 }

@@ -1,8 +1,8 @@
 "use strict";
 
 import TextureRenderable from "./texture_renderable";
-import Textrure from "../resources/texture.js";
-import shaderResource from "../core/shader_resources.js";
+import * as texture from "../resources/texture.js";
+import * as shaderResources from "../core/shader_resources.js";
 
 // The expected resource coordinates array of 8 floats where:
 // [0][1] - uv coords of Top-Right
@@ -20,7 +20,7 @@ var eTexCoordArrayIndex = {
 class SpriteRenderable extends TextureRenderable {
     constructor(texture) {
         super(texture);
-        super._setShader(shaderResource.getSpriteShader());
+        super._setShader(shaderResources.getSpriteShader());
         // Sprite coordinates
         this.elmLeft   = 0.0; // bounds of texture coord (0 is left, 1 is right)
         this.elmRight  = 1.0;
@@ -32,20 +32,22 @@ class SpriteRenderable extends TextureRenderable {
     setElementUVCoordinate(left, right, bottom, top) {
         this.elmLeft   = left;
         this.elmRight  = right;
-        this.elmTop    = bottom;
-        this.elmBottom = top;
+        this.elmTop    = top;
+        this.elmBottom = bottom;
     }
 
     // Specify element region by pixel xy-position (0, img.resolution)
-    setElementPixelPosition(left, right, bottom, top) {
+    setElementPixelPosition(left, right, bottom, top) {        
         var texInfo = texture.get(this.mTexture);
-        var imgW = texInfo.mWidth; // Entire image width, height
-        var imgH = texInfo.mHeight;
+        var imgW = texInfo.width; // Entire image width, height
+        var imgH = texInfo.height;
 
         this.elmLeft   = left / imgW;
         this.elmRight  = right / imgW;
-        this.elmTop    = bottom / imgH;
-        this.elmBottom = top / imgH;
+        this.elmTop    = top / imgH;
+        this.elmBottom = bottom / imgH;                       
+        // console.log(this);  
+        // console.log('Sprite renderable:51 Set sprite coords');
     }
 
     getElementUVCoordinateArray() {

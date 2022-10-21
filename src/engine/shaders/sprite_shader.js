@@ -26,7 +26,7 @@ class SpriteShader extends TextureShader {
     _getTexCoordBuffer() { return this.mTexCoordBuffer; }
 
     setTextureCoords(texCoords) {
-        var gl = glSys.getGL;
+        var gl = glSys.getGL();
         gl.bindBuffer(gl.ARRAY_BUFFER, this.mTexCoordBuffer);
         gl.bufferSubData(gl.ARRAY_BUFFER, 0, new Float32Array(texCoords));
     }

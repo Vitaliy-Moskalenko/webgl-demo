@@ -1,7 +1,7 @@
 "use strickt";
 
 import * as glSys from "../core/gl.js";
-import { getTextureShader } from "../core/shader_resources";
+import { getTextureShader } from "../core/shader_resources.js";
 import * as vertexBuffer from "../core/vertex_buffer.js";
 import SimpleShader from "./simple_shader.js";
 
