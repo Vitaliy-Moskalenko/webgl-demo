@@ -14,7 +14,9 @@ import Transform from "./transform.js";
 import Renderable from "./renderables/renderable.js";
 import TextureRenderable from "./renderables/texture_renderable.js";
 import SpriteRenderable from "./renderables/sprite_renderable.js";
+import SpriteAnimateRenderable from "./renderables/sprite_animate_renderable.js";
 import { eTexCoordArrayIndex } from "./renderables/sprite_renderable.js";
+import { eAnimationType } from "./renderables/sprite_animate_renderable.js";
 // Local to this file
 import * as glSys from "./core/gl.js";
 import * as vertexBuffer from "./core/vertex_buffer.js";
@@ -46,9 +48,10 @@ function clearCanvas(color) {
 }
 
 export default { 
-	audio, text, xml, texture, // Resource support
-	input,                     // Input support
-	eTexCoordArrayIndex,       // Constants
-	Camera, Scene, Renderable, TextureRenderable, SpriteRenderable, Transform,
+	audio, text, xml, texture,           // Resource support
+	input,                               // Input support
+	eTexCoordArrayIndex, eAnimationType, // Constants
+	Camera, Scene, Transform,
+	Renderable, TextureRenderable, SpriteRenderable, SpriteAnimateRenderable,
 	init, cleanUp, clearCanvas
 }
