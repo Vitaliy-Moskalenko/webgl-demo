@@ -5,6 +5,8 @@ import * as audio from "./resources/audio.js";
 import * as text from "./resources/text.js";
 import * as xml from "./resources/xml.js";
 import * as texture from "./resources/texture.js";
+import * as font from "./resources/font.js";
+import * as defaultResources from "./resources/default_resources.js";
 // Utils
 import * as input from "./input.js";
 import Scene from "./scene.js";
@@ -15,6 +17,7 @@ import Renderable from "./renderables/renderable.js";
 import TextureRenderable from "./renderables/texture_renderable.js";
 import SpriteRenderable from "./renderables/sprite_renderable.js";
 import SpriteAnimateRenderable from "./renderables/sprite_animate_renderable.js";
+import FontRenderable from "./renderables/font_renderable.js";
 import { eTexCoordArrayIndex } from "./renderables/sprite_renderable.js";
 import { eAnimationType } from "./renderables/sprite_animate_renderable.js";
 // Local to this file
@@ -29,7 +32,8 @@ function init(htmlCanvasId) {
 	vertexBuffer.init();
 	input.init();
 	audio.init();
-	shaderResources.init();	
+	shaderResources.init();
+	defaultResources.init();
 }
 
 function cleanUp() {
@@ -37,6 +41,7 @@ function cleanUp() {
 	audio.cleanUp();
 	input.cleanUp();
 	shaderResources.cleanUp();
+	defaultResources.cleanUp();
 	vertexBuffer.cleanUp();
 	glSys.cleanUp();
 }
@@ -48,10 +53,10 @@ function clearCanvas(color) {
 }
 
 export default { 
-	audio, text, xml, texture,           // Resource support
-	input,                               // Input support
-	eTexCoordArrayIndex, eAnimationType, // Constants
+	audio, text, xml, texture, font, defaultResources, // Resource support
+	input,                                             // Input support
+	eTexCoordArrayIndex, eAnimationType,               // Constants
 	Camera, Scene, Transform,
-	Renderable, TextureRenderable, SpriteRenderable, SpriteAnimateRenderable,
+	Renderable, TextureRenderable, SpriteRenderable, SpriteAnimateRenderable, FontRenderable,
 	init, cleanUp, clearCanvas
 }
