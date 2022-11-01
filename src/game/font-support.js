@@ -36,7 +36,7 @@ class Game extends engine.Scene {
 
         this.mFontImage = new engine.SpriteRenderable(this.fontImage);
         this.mFontImage.setColor([1, 0, 1, 0]);
-        this.mFontImage.getXform().setPosition(15, 20);
+        this.mFontImage.getXform().setPosition(15, 50);
         this.mFontImage.getXform().setSize(20, 20);
 
         this.mMinion = new engine.SpriteAnimateRenderable(this.minionSprite);
@@ -62,7 +62,7 @@ class Game extends engine.Scene {
         this._initText(this.mTextCons16, 50, 55, [0, 0, 0, 1], 2);
 
         this.mTextCons24 = new engine.FontRenderable("Consolas 24: Black");
-        this.mTextCons16.setFontName(this.fontCons24);
+        this.mTextCons24.setFontName(this.fontCons24);
         this._initText(this.mTextCons24, 50, 50, [0, 0, 0, 1], 3);
 
         this.mTextCons32 = new engine.FontRenderable("Consolas 32: White");
@@ -116,7 +116,7 @@ class Game extends engine.Scene {
         this.mMinion.draw(this.mCamera);
         this.mFontImage.draw(this.mCamera);
 
-        this.mTextSysFont.draw(this.mCamera);
+        this.mTextSysFont.draw(this.mCamera);  
         this.mTextCons16.draw(this.mCamera);
         this.mTextCons24.draw(this.mCamera);
         this.mTextCons32.draw(this.mCamera);
@@ -125,7 +125,7 @@ class Game extends engine.Scene {
     }
 
     update() {
-        var dX = 0.5, dT = 0.05;
+        var dX = 0.5, dT = 0.001;
         var xForm = this.mHero.getXform();
         // Hero
         if(engine.input.isKeyPressed(engine.input.keys.RIGHT)) {
@@ -139,6 +139,7 @@ class Game extends engine.Scene {
             if(xForm.getXpos() < 0)
                 xForm.setPosition(100, 50);
         }
+
         // System font image
         var texCoord = this.mFontImage.getElementUVCoordinateArray();
         var b = texCoord[engine.eTexCoordArrayIndex.eBottom] + dT;
@@ -149,7 +150,8 @@ class Game extends engine.Scene {
 
         this.mFontImage.setElementUVCoordinate(
             texCoord[engine.eTexCoordArrayIndex.eLeft], r, b, 
-            texCoord[engine.eTexCoordArrayIndex.eTop]);
+            texCoord[engine.eTexCoordArrayIndex.eTop]
+        );
         // Minion
         this.mMinion.updateAnimation();
 

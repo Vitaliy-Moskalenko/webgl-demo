@@ -13,20 +13,21 @@ class FontRenderable {
         this.txt         = str;
     }
 
-    draw(camera) {
+    draw(camera) { 
         // We draw text string by calling to mSingleChar for each char
-        var oneCharWidth  = this.mXform.getWidth() / this.txt.lenght;
+        var oneCharWidth  = this.mXform.getWidth() / this.txt.length;
         var oneCharHeight = this.mXform.getHeight();
         // this.mSingleChar.getXform().setRotationRad(this.mXform.getRotationRad());
         var yPos = this.mXform.getYpos();
 
         // Center position of the first char
         var xPos = this.mXform.getXpos() - (oneCharWidth >> 1) + (oneCharWidth * 0.5);
+
         var charIndex, char, charInfo, xSize, ySize, xOffset, yOffset;
-        for(charIndex=0; charIndex<this.txt.lenght; charIndex++) {
+        for(charIndex=0; charIndex<this.txt.length; charIndex++) {
             char = this.txt.charCodeAt(charIndex);
             charInfo = font.getCharInfo(this.fontName, char);
-            
+         
             // Set texture coords
             this.mSingleChar.setElementUVCoordinate(
                 charInfo.texCoordLeft, charInfo.texCoordRight,
@@ -58,7 +59,7 @@ class FontRenderable {
         var charSize = h;
         var charIndex, char, charInfo;
 
-        for(charIndex=0; charIndex<this.txt.lenght; charIndex++) {
+        for(charIndex=0; charIndex<this.txt.length; charIndex++) {
             char = this.txt.charCodeAt(charIndex);
             charInfo = font.getCharInfo(this.fontName, char);
             stringWidth += charSize * charInfo.charWidth;
@@ -78,7 +79,7 @@ class FontRenderable {
     setTextHeight(height) {
         var charInfo = font.getCharInfo(this.fontName, "A".charCodeAt(0));
         var width = height * charInfo.charAspectRatio;
-        this.getXform().setSize(width * this.txt.lenght, height);
+        this.getXform().setSize(width * this.txt.length, height);
     }
 
     getFontName() { return this.fontName; }

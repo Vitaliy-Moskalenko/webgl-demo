@@ -1,6 +1,5 @@
 "use strict";
 
-import TextureRenderable from "../renderables/texture_renderable";
 import * as texture from "./texture.js";
 import * as xml from "./xml.js";
 
@@ -44,43 +43,42 @@ function unload() {
 
 function getCharInfo(fontName, char) {
     var returnInfo = null;
-    var fontInfo = xml.get(getDescName(fontName));
+    var fontInfo = xml.get(getDescName(fontName));  
     var commonPath = "font/common";
     var commonInfo = fontInfo.evaluate(commonPath, fontInfo, null, XPathResult.ANY_TYPE, null);
-    
+
     commonInfo = commonInfo.iterateNext();
     if(commonInfo === null)
-        return returnInfo;
+        return returnInfo; 
 
     var charHeight = commonInfo.getAttribute("base");
     var charPath = "font/chars/char[@id=" + char + "]";
     var charInfo = fontInfo.evaluate(charPath, fontInfo, null,  XPathResult.ANY_TYPE, null);    
-    
     charInfo = charInfo.iterateNext();    
     if(charInfo === null)
         return returnInfo;    
 
     returnInfo = new CharacterInfo();
-    var texInfo = texture.get(getImageName(fontName));    
-    let leftPixel = Number(charInfo.getAttribute("x"));
-    let rightPixel = leftPixel + Number(charInfo.getAttribute("width")) - 1;
-    let topPixel = (texInfo.mHeight - 1) - Number(charInfo.getAttribute("y"));
-    let bottomPixel = topPixel - Number(charInfo.getAttribute("height")) + 1;
+    var texInfo = texture.get(getImageName(fontName));   
+    var leftPixel = Number(charInfo.getAttribute("x"));
+    var rightPixel = leftPixel + Number(charInfo.getAttribute("width")) - 1;
+    var topPixel = (texInfo.height - 1) - Number(charInfo.getAttribute("y"));
+    var bottomPixel = topPixel - Number(charInfo.getAttribute("height")) + 1;
 
     // texture coordinate information
-    returnInfo.mTexCoordLeft = leftPixel / (texInfo.mWidth - 1);
-    returnInfo.mTexCoordTop = topPixel / (texInfo.mHeight - 1);
-    returnInfo.mTexCoordRight = rightPixel / (texInfo.mWidth - 1);
-    returnInfo.mTexCoordBottom = bottomPixel / (texInfo.mHeight - 1);
+    returnInfo.texCoordLeft   = leftPixel   / (texInfo.width - 1);
+    returnInfo.texCoordTop    = topPixel    / (texInfo.height - 1);
+    returnInfo.texCoordRight  = rightPixel  / (texInfo.width - 1);
+    returnInfo.texCoordBottom = bottomPixel / (texInfo.height - 1);
 
     // relative character size
-    let charWidth = charInfo.getAttribute("xadvance");
-    returnInfo.mCharWidth = charInfo.getAttribute("width") / charWidth;
-    returnInfo.mCharHeight = charInfo.getAttribute("height") / charHeight;
-    returnInfo.mCharWidthOffset = charInfo.getAttribute("xoffset") / charWidth;
-    returnInfo.mCharHeightOffset = charInfo.getAttribute("yoffset") / charHeight;
-    returnInfo.mCharAspectRatio = charWidth / charHeight;
-
+    var charWidth = charInfo.getAttribute("xadvance");
+    returnInfo.charWidth        = charInfo.getAttribute("width") / charWidth;
+    returnInfo.charHeight       = charInfo.getAttribute("height") / charHeight;
+    returnInfo.charWidthOffset  = charInfo.getAttribute("xoffset") / charWidth;
+    returnInfo.charHeightOffset = charInfo.getAttribute("yoffset") / charHeight;
+    returnInfo.charAspectRatio  = charWidth / charHeight;
+// console.log( returnInfo );
     return returnInfo;
 }
 
