@@ -31,7 +31,12 @@ const keys = {
     Q : 81,
     R : 82,
     S : 83,
+    U : 85,
+    V : 86,    
     W : 87,
+    X : 88,
+    Y : 89,
+    Z : 90,
 
     LAST_KEY_CODE: 222    
 }

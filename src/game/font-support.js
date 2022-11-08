@@ -2,6 +2,8 @@
 
 import engine from "../engine/index.js";
 
+var debug = false;
+
 class Game extends engine.Scene {
     constructor() {
         super();
@@ -132,12 +134,16 @@ class Game extends engine.Scene {
             xForm.incXposBy(dX);
             if(xForm.getXpos() > 100) 
                 xForm.setPosition(0, 50);
+
+            if(debug) console.log("Right key..");
         }
 
         if(engine.input.isKeyPressed(engine.input.keys.LEFT)) {
             xForm.incXposBy(-dX);
             if(xForm.getXpos() < 0)
                 xForm.setPosition(100, 50);
+
+            if(debug) console.log("Left key..");    
         }
 
         // System font image
@@ -156,21 +162,29 @@ class Game extends engine.Scene {
         this.mMinion.updateAnimation();
 
         // Interactive control of Display size
-        if(engine.input.isKeyClicked(engine.input.keys.ZERO))
+        if(engine.input.isKeyClicked(engine.input.keys.ZERO)) {
             this.mTextToWork = this.mTextCons16;
+            if(debug) console.log("ZERO key..");
+        }    
 
-        if(engine.input.isKeyClicked(engine.input.keys.ONE))
+        if(engine.input.isKeyClicked(engine.input.keys.ONE)) {
             this.mTextToWork = this.mTextCons24;
+            if(debug) console.log("ONE key..");
+        }    
 
-        if(engine.input.isKeyClicked(engine.input.keys.THREE))
+        if(engine.input.isKeyClicked(engine.input.keys.THREE)) {
             this.mTextToWork = this.mTextCons32;
+            if(debug) console.log("THREE key..");
+        }    
 
-        if(engine.input.isKeyClicked(engine.input.keys.FOUR))
+        if(engine.input.isKeyClicked(engine.input.keys.FOUR)) {
             this.mTextToWork = this.mTextCons72;
+            if(debug) console.log("FOUR key..");    
+        }    
 
-        var dF = 0.005;
+        var dF = 0.01;
         // Up + X; Up + Y
-        if(engine.input.isKeyClicked(engine.input.keys.UP)) {
+        if(engine.input.isKeyPressed(engine.input.keys.UP)) {
             if(engine.input.isKeyPressed(engine.input.keys.X))
                 this.mTextToWork.getXform().incWidthBy(dF);
         
@@ -180,10 +194,12 @@ class Game extends engine.Scene {
             this.mTextSysFont.setText(
                 this.mTextToWork.getXform().getWidth().toFixed(2)+"x"+
                 this.mTextToWork.getXform().getHeight().toFixed(2)
-            );     
+            );
+            
+            if(debug) console.log( this.mTextToWork.getText() );
         }
         // Down + X; Down + Y
-        if(engine.input.isKeyClicked(engine.input.keys.DOWN)) {
+        if(engine.input.isKeyPressed(engine.input.keys.DOWN)) {
             if(engine.input.isKeyPressed(engine.input.keys.X))
                 this.mTextToWork.getXform().incWidthBy(-dF);
         
