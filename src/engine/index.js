@@ -20,6 +20,9 @@ import SpriteAnimateRenderable from "./renderables/sprite_animate_renderable.js"
 import FontRenderable from "./renderables/font_renderable.js";
 import { eTexCoordArrayIndex } from "./renderables/sprite_renderable.js";
 import { eAnimationType } from "./renderables/sprite_animate_renderable.js";
+// Game Objects
+import GameObject from "./game_objects/game_object.js";
+import GameObjectSet from "./game_objects/game_object_set.js";
 // Local to this file
 import * as glSys from "./core/gl.js";
 import * as vertexBuffer from "./core/vertex_buffer.js";
@@ -58,5 +61,6 @@ export default {
 	eTexCoordArrayIndex, eAnimationType,               // Constants
 	Camera, Scene, Transform,
 	Renderable, TextureRenderable, SpriteRenderable, SpriteAnimateRenderable, FontRenderable,
+	GameObject, GameObjectSet,                      
 	init, cleanUp, clearCanvas
 }

@@ -1,5 +1,5 @@
 import engine from "../engine/index.js";
-import Game from "./game.js";
+import Game from "./texture-game.js";
 import SceneFileParser from "./util/scene_file_parser.js";
 
 class BlueLevel extends engine.Scene {

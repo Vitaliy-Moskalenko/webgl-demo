@@ -8,7 +8,7 @@ import * as shaderResource from "../core/shader_resources.js";
 var eAnimationType = {
     eRight: 0, // Animate from first (left) towards right
     eLeft:  1, // Find last element (right) , start from the right
-    sSwing: 2  // From left towards right, when hit the end - animate back
+    eSwing: 2  // From left towards right, when hit the end - animate back
 };
 
 class SpriteAnimateRenderable extends SpriteRenderable {
@@ -44,7 +44,7 @@ class SpriteAnimateRenderable extends SpriteRenderable {
                 this.currentElm = this.numElements - 1;
                 this.currentAnimAdvance = -1;
                 break;
-            case eAnimationType.sSwing:
+            case eAnimationType.eSwing:
                 this.currentAnimAdvance = -1 * this.currentAnimAdvance;
                 this.currentElm += 2 * this.currentAnimAdvance;
                 // this.currentElm += this.currentAnimAdvance << 1;

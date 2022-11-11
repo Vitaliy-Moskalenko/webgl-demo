@@ -82,8 +82,7 @@ function _compileShader(filePath, shaderType) {
 	catch(err) {
 		throw new Error("Failed to load shader file: " + filePath);
 		return null;
-	}
-	
+	}	
 	shaderSrc = xmlReq.responseText;
     if (shaderSrc === null) {
         throw new Error("WARNING: Loading of:" + filePath + " Failed!");
