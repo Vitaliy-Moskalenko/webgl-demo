@@ -3,8 +3,9 @@
 import engine from "../engine/index.js";
 
 import DyePack from "./objects/dye_pack.js";
-import Minion from "./objects/minion.js";
+// import Minion from "./objects/minion.js";
 import Hero from "./objects/hero.js";
+import Brain from "./objects/brain.js";
 import FontRenderable from "../engine/renderables/font_renderable";
 
 class Game extends engine.Scene {
@@ -17,8 +18,15 @@ class Game extends engine.Scene {
         this.mMsg = null;
 
         this.mHero      = null;
-        this.mMinionSet = null;
+        this.mBrain     = null;
+        // this.mMinionSet = null;
         this.mDyePack   = null;
+
+        // Mode of running.
+        // H: Player drive brain 
+        // J: Dye drive brain - immediate orientation change
+        // K: Dye drive brain - gradual orientation change 
+        this.mode = 'H';
     }
 
     load() {
@@ -31,21 +39,20 @@ class Game extends engine.Scene {
 
     init() {
         this.mCamera = new engine.Camera(vec2.fromValues(50, 37.5), 100, [0, 0, 640, 480]);
-        this.mCamera.setBackgroundColor([1, 1, 1, 1]);
+        this.mCamera.setBackgroundColor([0.8, 0.8, 0.8, 1]);
 
         this.mDyePack = new DyePack(this.minionSprite);
+        // this.mMinionSet = new engine.GameObjectSet();
+        this.mBrain = new Brain(this.minionSprite);
+        this.mHero = new Hero(this.minionSprite);
 
-        this.mMinionSet = new engine.GameObjectSet();
-
-        var i, randomX, randomY, mMinion;
+        /* var i, randomX, randomY, mMinion;
         for(i=0; i<5; i++) {
             randomY = Math.random() * 65;
             randomX = Math.random() * 100;
             mMinion = new Minion(this.minionSprite, randomX, randomY);
             this.mMinionSet.addToSet(mMinion);
-        }
-
-        this.mHero = new Hero(this.minionSprite);
+        } */
 
         this.mMsg = new FontRenderable("Status..");
         this.mMsg.setColor([0, 0, 1, 1]);
@@ -58,15 +65,35 @@ class Game extends engine.Scene {
         this.mCamera.setViewAndCameraMatrix();
 
         this.mHero.draw(this.mCamera);
-        this.mMinionSet.draw(this.mCamera);
+        this.mBrain.draw(this.mCamera);
+        // this.mMinionSet.draw(this.mCamera);
         this.mDyePack.draw(this.mCamera);
         this.mMsg.draw(this.mCamera);
     }
 
     update() {
+        var msg  = "Brain: [H:keys J:imm  K:grad]  ";
+        var rate = 1;
+
         this.mHero.update();
-        this.mMinionSet.update();
+        // this.mMinionSet.update();
         this.mDyePack.update();        
+
+        switch(this.mode) {
+            case 'H': this.mBrain.update(); break;
+            case 'K': rate = 0.02;
+            case 'J': 
+                this.mBrain.rotateObjPointTo(this.mHero.getXform().getPosition(), rate);
+                // Defautl GameObject: only move forward
+                engine.GameObject.prototype.update.call(this.mBrain);
+                break; 
+        }
+
+        if(engine.input.isKeyClicked(engine.input.keys.H)) this.mode = 'H';
+        if(engine.input.isKeyClicked(engine.input.keys.J)) this.mode = 'J';
+        if(engine.input.isKeyClicked(engine.input.keys.K)) this.mode = 'K';
+
+        this.mMsg.setText(msg + this.mode);
     }
 }
 
