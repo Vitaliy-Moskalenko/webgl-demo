@@ -39,7 +39,7 @@ class Game extends engine.Scene {
 
     init() {
         this.mCamera = new engine.Camera(vec2.fromValues(50, 37.5), 100, [0, 0, 640, 480]);
-        this.mCamera.setBackgroundColor([0.8, 0.8, 0.8, 1]);
+        this.mCamera.setBackgroundColor([1, 1, 1, 1]);
 
         this.mDyePack = new DyePack(this.minionSprite);
         // this.mMinionSet = new engine.GameObjectSet();
@@ -76,6 +76,10 @@ class Game extends engine.Scene {
         var rate = 1;
 
         this.mHero.update();
+
+        var heroBBox  = this.mHero.getBBox();
+        var brainBBox = this.mBrain.getBBox();
+        
         // this.mMinionSet.update();
         this.mDyePack.update();        
 
@@ -83,17 +87,22 @@ class Game extends engine.Scene {
             case 'H': this.mBrain.update(); break;
             case 'K': rate = 0.02;
             case 'J': 
-                this.mBrain.rotateObjPointTo(this.mHero.getXform().getPosition(), rate);
-                // Defautl GameObject: only move forward
-                engine.GameObject.prototype.update.call(this.mBrain);
+                if(!heroBBox.intersectsBound(brainBBox)) { // Stops brain when touches hero
+                    this.mBrain.rotateObjPointTo(this.mHero.getXform().getPosition(), rate);
+                    // Defautl GameObject: only move forward
+                    engine.GameObject.prototype.update.call(this.mBrain);
+                }
                 break; 
         }
+
+        // Check for hero going outside 80% of WC window bound
+        var status = this.mCamera.collideWCBound(this.mHero.getXform(), 0.8);
 
         if(engine.input.isKeyClicked(engine.input.keys.H)) this.mode = 'H';
         if(engine.input.isKeyClicked(engine.input.keys.J)) this.mode = 'J';
         if(engine.input.isKeyClicked(engine.input.keys.K)) this.mode = 'K';
 
-        this.mMsg.setText(msg + this.mode);
+        this.mMsg.setText(msg + this.mode + " [Hero.bounds=" + status + "]");
     }
 }
 

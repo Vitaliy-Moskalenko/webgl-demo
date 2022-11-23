@@ -12,6 +12,8 @@ import * as input from "./input.js";
 import Scene from "./scene.js";
 import Camera from "./camera.js";
 import Transform from "./transform.js";
+import BoundingBox from "./bounding_box.js";
+import { eBoundCollideStatus } from "./bounding_box.js";
 // Renderables
 import Renderable from "./renderables/renderable.js";
 import TextureRenderable from "./renderables/texture_renderable.js";
@@ -56,10 +58,10 @@ function clearCanvas(color) {
 }
 
 export default { 
-	audio, text, xml, texture, font, defaultResources, // Resource support
-	input,                                             // Input support
-	eTexCoordArrayIndex, eAnimationType,               // Constants
-	Camera, Scene, Transform,
+	audio, text, xml, texture, font, defaultResources,       // Resource support
+	input,                                                   // Input support
+	eTexCoordArrayIndex, eAnimationType, eBoundCollideStatus, // Constants
+	Camera, Scene, Transform, BoundingBox,
 	Renderable, TextureRenderable, SpriteRenderable, SpriteAnimateRenderable, FontRenderable,
 	GameObject, GameObjectSet,                      
 	init, cleanUp, clearCanvas

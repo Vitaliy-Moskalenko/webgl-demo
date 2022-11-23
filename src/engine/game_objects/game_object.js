@@ -1,5 +1,7 @@
 "use strict";
 
+import BoundingBox from "../bounding_box.js";
+
 class GameObject {
     constructor(renderable) {
         this.visible = true;
@@ -19,6 +21,11 @@ class GameObject {
     setCurrentFrontDirection(v) { vec2.normalize(this.mCurrentFrontDirection, v); }
 
     getXform() { return this.mRenderComponent.getXform(); }
+
+    getBBox() {
+        var xForm = this.getXform();
+        return new BoundingBox(xForm.getPosition(), xForm.getWidth(), xForm.getHeight());
+    }
 
     getRenderable() { return this.mRenderComponent; }
 
